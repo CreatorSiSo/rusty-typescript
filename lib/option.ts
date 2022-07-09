@@ -23,6 +23,10 @@ class Option<T> {
 		return this.isNone ? fn() : this.inner!
 	}
 
+	map<R>(fn: (from: T) => R): Option<R> {
+		return this.isNone ? None : Some(fn(this.inner!))
+	}
+
 	private inner
 }
 
@@ -30,23 +34,25 @@ const None = new Option<any>(false)
 const Some = <T>(inner: T) => new Option(true, inner)
 
 function test(): Option<string> {
+	const checkResult = <T>(result: Option<T>, or: T, elseFn: () => T) =>
+		console.log(
+			'None:',
+			result.isNone,
+			'Some:',
+			result.isSome,
+			result.unwrap(),
+			result.unwrapOr(or),
+			result.unwrapOrElse(elseFn),
+		)
+
 	const result1 = Some(5)
-	console.log(
-		result1.isNone,
-		result1.isSome,
-		result1.unwrap(),
-		result1.unwrapOr(2),
-		result1.unwrapOrElse(() => 2 * 55),
-	)
+	checkResult(result1, 2, () => 2 * 55)
+
+	const result1String = result1.map((num) => num.toString())
+	checkResult(result1String, '2', () => '2 * 55')
 
 	const result2 = None
-	console.log(
-		result2.isNone,
-		result2.isSome,
-		result2.unwrapOr('oijdf'),
-		result2.unwrapOrElse(() => 2 * 55),
-	)
-	console.log(result2.isNone, result2.isSome, result2.unwrap())
+	checkResult(result2, 'oijdf', () => 2 * 55)
 
 	return None
 }
