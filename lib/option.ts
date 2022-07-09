@@ -1,45 +1,35 @@
-interface Option<T> {
-	readonly isNone: boolean
-	readonly isSome: boolean
-	unwrap(): T
-	unwrapOr(default_: T): T
-	unwrapOrElse(f: () => T): T
-}
-
-/** TODO: Figure out if it is possible to get `None` insted of `None()` to work. **/
-function None<T>(): Option<T> {
-	return {
-		isNone: true,
-		isSome: false,
-		unwrap() {
-			throw new Error('Value is None!')
-		},
-		unwrapOr(default_: T) {
-			return default_
-		},
-		unwrapOrElse(f: () => T): T {
-			return f()
-		},
+class Option<T> {
+	constructor(isSome: boolean, inner?: T) {
+		this.inner = inner
+		this.isSome = isSome
+		this.isNone = !isSome
 	}
-}
 
-function Some<T>(inner: T): Option<T> {
-	return {
-		isNone: false,
-		isSome: true,
-		unwrap() {
-			return inner
-		},
-		unwrapOr(or) {
-			return inner
-		},
-		unwrapOrElse(f: () => T): T {
-			return inner
-		},
+	readonly isNone
+	readonly isSome
+
+	expect(msg: string): T {
+		if (this.isNone) throw new Error(msg)
+		return this.inner!
 	}
+	unwrap(): T {
+		if (this.isNone) throw new Error('Value is `None`!')
+		return this.inner!
+	}
+	unwrapOr(default_: T): T {
+		return this.isNone ? default_ : this.inner!
+	}
+	unwrapOrElse(fn: () => T): T {
+		return this.isNone ? fn() : this.inner!
+	}
+
+	private inner
 }
 
-function test() {
+const None = new Option<any>(false)
+const Some = <T>(inner: T) => new Option(true, inner)
+
+function test(): Option<string> {
 	const result1 = Some(5)
 	console.log(
 		result1.isNone,
@@ -49,7 +39,7 @@ function test() {
 		result1.unwrapOrElse(() => 2 * 55),
 	)
 
-	const result2 = None()
+	const result2 = None
 	console.log(
 		result2.isNone,
 		result2.isSome,
@@ -57,6 +47,8 @@ function test() {
 		result2.unwrapOrElse(() => 2 * 55),
 	)
 	console.log(result2.isNone, result2.isSome, result2.unwrap())
+
+	return None
 }
 
 export { Option, None, Some }
