@@ -39,22 +39,24 @@ function Some<T>(inner: T): Option<T> {
 	}
 }
 
-const result1 = Some(5)
-console.log(
-	result1.isNone,
-	result1.isSome,
-	result1.unwrap(),
-	result1.unwrapOr(2),
-	result1.unwrapOrElse(() => 2 * 55),
-)
+function test() {
+	const result1 = Some(5)
+	console.log(
+		result1.isNone,
+		result1.isSome,
+		result1.unwrap(),
+		result1.unwrapOr(2),
+		result1.unwrapOrElse(() => 2 * 55),
+	)
 
-const result2 = None()
-console.log(
-	result2.isNone,
-	result2.isSome,
-	result2.unwrapOr('oijdf'),
-	result2.unwrapOrElse(() => 2 * 55),
-)
-console.log(result2.isNone, result2.isSome, result2.unwrap())
+	const result2 = None()
+	console.log(
+		result2.isNone,
+		result2.isSome,
+		result2.unwrapOr('oijdf'),
+		result2.unwrapOrElse(() => 2 * 55),
+	)
+	console.log(result2.isNone, result2.isSome, result2.unwrap())
+}
 
 export { Option, None, Some }

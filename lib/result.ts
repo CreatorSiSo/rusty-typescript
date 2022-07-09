@@ -48,25 +48,27 @@ function Ok<T, E>(data: any): Result<T, E> {
 	}
 }
 
-const result1 = Ok(2)
-console.log(result1.isErr, result1.isOk, result1.unwrap())
+function test() {
+	const result1 = Ok(2)
+	console.log(result1.isErr, result1.isOk, result1.unwrap())
 
-const result2 = Err('Did not succeed!')
-console.log(
-	result2.isErr,
-	result2.isOk,
-	result2.unwrapOr('oijdf'),
-	result2.unwrapOrElse(() => 2 * 55),
-)
-console.log(
-	result2.isErr,
-	result2.isOk,
-	result2.expect('sdigh'),
-	result2.unwrap(),
-)
+	const result2 = Err('Did not succeed!')
+	console.log(
+		result2.isErr,
+		result2.isOk,
+		result2.unwrapOr('oijdf'),
+		result2.unwrapOrElse(() => 2 * 55),
+	)
+	console.log(
+		result2.isErr,
+		result2.isOk,
+		result2.expect('sdigh'),
+		result2.unwrap(),
+	)
 
-function doesStuff(): Result<{}, Error> {
-	return Ok({})
+	function doesStuff(): Result<{}, Error> {
+		return Ok({})
+	}
 }
 
 export { Result, Err, Ok }
