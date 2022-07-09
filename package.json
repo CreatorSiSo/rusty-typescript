@@ -1,0 +1,13 @@
+{
+	"name": "rusty-typescript",
+	"description": "Some features of Rust implemented in Typescript.",
+	"authors": "CreaorSiSO",
+	"version": "0.1.0",
+	"main": "lib/main.ts",
+	"scripts": {
+		"format": "prettier -w ./**/*.{ts,json}"
+	},
+	"devDependencies": {
+		"prettier": "^2.7.1"
+	}
+}
