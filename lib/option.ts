@@ -28,10 +28,40 @@ class Option<T> {
 	}
 
 	private inner
+	private __type__ = 'Option'
 }
 
 const None = new Option<any>(false)
 const Some = <T>(inner: T) => new Option(true, inner)
+
+// function match<T>(value: T) {
+// 	if (value.__type__ === 'Option') {
+// 	}
+// }
+function matchOption<T, R>(
+	option: Option<T>,
+	catchAll: () => R,
+	caseNone: () => R,
+	...caseSome: [(value: T) => boolean, (value: T) => R][]
+) {
+	if (option.isNone) return caseNone()
+
+	// return caseSome[0][1](option.unwrap())
+	const inner = option.unwrap()
+	for (let [matchFn, transformFn] of caseSome) {
+		if (matchFn(inner)) return transformFn(inner)
+	}
+}
+
+const maybeNum = Some(9)
+let matchResult = matchOption(
+	maybeNum,
+	() => 'catch all',
+	() => 'none',
+	[(v) => v === 4, (v) => 'not equal'],
+	[(v) => v === 9, (v) => (v + 20).toString()],
+)
+console.log(matchResult)
 
 function test(): Option<string> {
 	const checkResult = <T>(result: Option<T>, or: T, elseFn: () => T) =>
