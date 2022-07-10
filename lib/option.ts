@@ -1,3 +1,5 @@
+import { arrayEq } from './utils'
+
 class Option<T> {
 	constructor(isSome: boolean, inner?: T) {
 		this.inner = inner
@@ -27,43 +29,47 @@ class Option<T> {
 		return this.isNone ? None : Some(fn(this.inner!))
 	}
 
+	match<R>(
+		catchAll: () => R,
+		...caseSome: [(option: Option<T>) => boolean, (value: T) => R][]
+	) {
+		for (let [matchFn, transformFn] of caseSome) {
+			if (matchFn(this)) return transformFn(this.inner!)
+		}
+
+		return catchAll()
+	}
+
 	private inner
-	private __type__ = 'Option'
 }
 
 const None = new Option<any>(false)
 const Some = <T>(inner: T) => new Option(true, inner)
 
-// function match<T>(value: T) {
-// 	if (value.__type__ === 'Option') {
-// 	}
-// }
-function matchOption<T, R>(
-	option: Option<T>,
-	catchAll: () => R,
-	caseNone: () => R,
-	...caseSome: [(value: T) => boolean, (value: T) => R][]
-) {
-	if (option.isNone) return caseNone()
+const caseNone = <T>(option: Option<T>) => option.isNone
+function caseSome<T>(value: T) {
+	return (option: Option<T>) => {
+		if (option.isNone) return false
 
-	// return caseSome[0][1](option.unwrap())
-	const inner = option.unwrap()
-	for (let [matchFn, transformFn] of caseSome) {
-		if (matchFn(inner)) return transformFn(inner)
+		const inner = option.unwrap()
+
+		if (Array.isArray(inner) && Array.isArray(value))
+			return arrayEq(inner, value)
+		return inner === value
 	}
 }
 
-const maybeNum = Some(9)
-let matchResult = matchOption(
-	maybeNum,
-	() => 'catch all',
-	() => 'none',
-	[(v) => v === 4, (v) => 'not equal'],
-	[(v) => v === 9, (v) => (v + 20).toString()],
-)
-console.log(matchResult)
-
 function test(): Option<string> {
+	const maybeNum = Some([9, 9, 7])
+	// const maybeNum = None
+	let matchResult = maybeNum.match(
+		() => 'catch all',
+		[caseNone, () => 'sdhfgipuhaih'],
+		[caseSome([4]), (v) => 'not equal'],
+		[caseSome([9, 9, 7]), ([, second, third]) => (second + third).toString()],
+	)
+	console.log(matchResult)
+
 	const checkResult = <T>(result: Option<T>, or: T, elseFn: () => T) =>
 		console.log(
 			'None:',
@@ -87,4 +93,4 @@ function test(): Option<string> {
 	return None
 }
 
-export { Option, None, Some }
+export { Option, None, Some, caseNone, caseSome }
