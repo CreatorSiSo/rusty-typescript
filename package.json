@@ -5,6 +5,7 @@
 	"version": "0.1.0",
 	"main": "lib/main.ts",
 	"scripts": {
+		"test": "bun wiptest",
 		"format": "prettier -w ./**/*.{ts,json}"
 	},
 	"devDependencies": {

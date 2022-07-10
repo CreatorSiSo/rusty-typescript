@@ -31,9 +31,9 @@ class Option<T> {
 
 	match<R>(
 		catchAll: () => R,
-		...caseSome: [(option: Option<T>) => boolean, (value: T) => R][]
+		...cases: [(option: Option<T>) => boolean, (value: T) => R][]
 	) {
-		for (let [matchFn, transformFn] of caseSome) {
+		for (let [matchFn, transformFn] of cases) {
 			if (matchFn(this)) return transformFn(this.inner!)
 		}
 
@@ -61,7 +61,6 @@ function caseSome<T>(value: T) {
 
 function test(): Option<string> {
 	const maybeNum = Some([9, 9, 7])
-	// const maybeNum = None
 	let matchResult = maybeNum.match(
 		() => 'catch all',
 		[caseNone, () => 'sdhfgipuhaih'],

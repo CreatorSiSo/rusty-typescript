@@ -4,6 +4,10 @@
 		"target": "ESNext",
 		"lib": ["ESNext"],
 		"types": ["bun-types"],
-		"moduleResolution": "NodeNext"
+		"moduleResolution": "NodeNext",
+		"strictNullChecks": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"allowUnreachableCode": false
 	}
 }
