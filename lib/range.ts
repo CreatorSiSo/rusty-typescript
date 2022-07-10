@@ -1,19 +1,24 @@
 import { Result, Err, Ok } from './result'
 
-function Range(start: number, end: number, step = 1): Iterable<number> {
-	const isOutOfRange =
+function Range(
+	start: number,
+	end: number,
+	absoluteStep: number = 1,
+): Iterable<number> {
+	absoluteStep = Math.abs(absoluteStep)
+	const step = start < end ? absoluteStep : -1 * absoluteStep
+	const isInRange =
 		step < 0 //
-			? (num: number) => num < end
-			: (num: number) => num > end
+			? (num: number) => num >= end
+			: (num: number) => num <= end
 
 	return {
 		*[Symbol.iterator]() {
 			let current = start
 
-			while (true) {
+			while (isInRange(current)) {
 				yield current
 				current += step
-				if (isOutOfRange(current)) break
 			}
 		},
 	}
@@ -26,6 +31,7 @@ function CheckedRange(
 ): Result<Iterable<number>, Error> {
 	if (!Number.isFinite(start))
 		return Err('Can not create Range that starts at `Infinity`!')
+
 	if (Number.isNaN(start) || Number.isNaN(end))
 		return Err('Can not create Range that starts or ends at `NaN`!')
 
@@ -52,5 +58,6 @@ function test() {
 		}
 	}
 }
+// test()
 
 export { Range, CheckedRange }
