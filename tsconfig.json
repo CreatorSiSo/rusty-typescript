@@ -2,9 +2,8 @@
 	"compilerOptions": {
 		"strict": true,
 		"target": "ESNext",
-		"lib": [
-			"ESNext",
-			"DOM"
-		]
+		"lib": ["ESNext"],
+		"types": ["bun-types"],
+		"moduleResolution": "NodeNext"
 	}
 }

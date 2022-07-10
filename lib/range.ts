@@ -38,26 +38,4 @@ function CheckedRange(
 	return Ok(Range(start, end, step))
 }
 
-function test() {
-	for (const num of Range(0, -0.1, -0.01)) {
-		console.log(num)
-	}
-
-	for (const num of Range(0, -5, -1)) {
-		console.log(num)
-	}
-
-	for (const num of Range(0, 5)) {
-		console.log(num)
-	}
-
-	const range = CheckedRange(Infinity, NaN)
-	if (range.isOk) {
-		for (const num of range.unwrap()) {
-			console.log(num)
-		}
-	}
-}
-// test()
-
 export { Range, CheckedRange }
