@@ -26,8 +26,8 @@ function CheckedRange(
 ): Result<Iterable<number>, Error> {
 	if (!Number.isFinite(start))
 		return Err('Can not create Range that starts at `Infinity`!')
-	if (Number.isNaN(start))
-		return Err('Can not create Range that starts at `NaN`!')
+	if (Number.isNaN(start) || Number.isNaN(end))
+		return Err('Can not create Range that starts or ends at `NaN`!')
 
 	return Ok(Range(start, end, step))
 }
@@ -45,7 +45,7 @@ function test() {
 		console.log(num)
 	}
 
-	const range = CheckedRange(Infinity, 9)
+	const range = CheckedRange(Infinity, NaN)
 	if (range.isOk) {
 		for (const num of range.unwrap()) {
 			console.log(num)
@@ -53,4 +53,4 @@ function test() {
 	}
 }
 
-export { CheckedRange as InfiniteRange }
+export { Range, CheckedRange }
