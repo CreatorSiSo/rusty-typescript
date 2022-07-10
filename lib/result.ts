@@ -1,54 +1,37 @@
-interface Result<T, E> {
-	readonly isErr: boolean
-	readonly isOk: boolean
-	unwrap(): T
-	unwrapOr(default_: T): T
-	unwrapOrElse(f: () => T): T
-	expect(msg: string): T
-}
-
-/** TODO: Figure out if it is possible to get `None` insted of `None()` to work. **/
-function Err<T, E>(msg: string): Result<T, E> {
-	return {
-		isErr: true,
-		isOk: false,
-
-		unwrap() {
-			throw new Error(msg)
-		},
-		unwrapOr(default_: T) {
-			return default_
-		},
-		unwrapOrElse(f: () => T): T {
-			return f()
-		},
-		expect(expectMsg) {
-			throw new Error(expectMsg)
-		},
+class Result<T, E> {
+	constructor(isOk: boolean, value: T | E) {
+		this.value = value
+		this.isOk = isOk
+		this.isErr = !isOk
 	}
-}
 
-function Ok<T, E>(data: any): Result<T, E> {
-	return {
-		isErr: false,
-		isOk: true,
+	readonly isErr
+	readonly isOk
 
-		unwrap() {
-			return data
-		},
-		unwrapOr(_) {
-			return data
-		},
-		unwrapOrElse(_: () => T): T {
-			return data
-		},
-		expect(_) {
-			return data
-		},
+	expect(msg: string): T {
+		if (this.isErr) throw new Error(msg)
+		// TODO: Find out if there is a better way to deal with this insted of type assertion
+		return this.value as T
 	}
+	unwrap(): T {
+		if (this.isErr) throw this.value
+		return this.value as T
+	}
+	unwrapOr(default_: T): T {
+		return this.isErr ? default_ : (this.value as T)
+	}
+	unwrapOrElse(fn: () => T): T {
+		return this.isErr ? fn() : (this.value as T)
+	}
+
+	private value
 }
+
+const Err = <E>(msg: string) => new Result<any, E>(false, new Error(msg))
+const Ok = <T>(inner: T) => new Result<T, any>(true, inner)
 
 function test() {
+	// TODO: Clean up test
 	const result1 = Ok(2)
 	console.log(result1.isErr, result1.isOk, result1.unwrap())
 
