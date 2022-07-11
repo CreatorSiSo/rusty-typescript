@@ -18,5 +18,7 @@ describe('Iter', () => {
 		}
 
 		assertEq(count, 10_000)
+
+		assertEq(iter.next(), Some(10_001))
 	})
 })

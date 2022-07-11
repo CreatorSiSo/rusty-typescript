@@ -8,4 +8,14 @@ function arrayEq(left: any[], right: any[]) {
 	return true
 }
 
-export { arrayEq }
+type anyObject = { [k: string]: any }
+
+function objectEq(left: anyObject, right: anyObject) {
+	for (const [key, value] of Object.entries(left)) {
+		if (right[key] !== value) return false
+	}
+
+	return true
+}
+
+export { arrayEq, objectEq }
