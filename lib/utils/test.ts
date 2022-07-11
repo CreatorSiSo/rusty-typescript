@@ -4,8 +4,7 @@ const lines = (...lines: any[]) => lines.join('\n')
 
 function debugString(value: any): string {
 	if (
-		Object.keys(value).length === 3 &&
-		Object.hasOwn(value, 'isNone') &&
+		Object.keys(value).length === 2 &&
 		Object.hasOwn(value, 'isSome') &&
 		Object.hasOwn(value, 'inner')
 	)

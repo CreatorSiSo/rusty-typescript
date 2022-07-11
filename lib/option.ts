@@ -2,13 +2,14 @@ import { arrayEq } from '@/utils/compare'
 
 class Option<T> {
 	constructor(isSome: boolean, inner?: T) {
-		this.inner = inner
 		this.isSome = isSome
-		this.isNone = !isSome
+		this.inner = inner
 	}
 
-	readonly isNone
 	readonly isSome
+	get isNone() {
+		return !this.isSome
+	}
 
 	expect(msg: string): T {
 		if (this.isNone) throw new Error(msg)
