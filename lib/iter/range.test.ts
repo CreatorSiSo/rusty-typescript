@@ -1,6 +1,6 @@
 import { describe, test } from 'bun:test'
-import { Range } from './range'
-import { assertEq } from './test'
+import { Range } from '@/iter/range'
+import { assertEq } from '@/utils/test'
 
 describe('Range for..of', () => {
 	test('0..9', () => {

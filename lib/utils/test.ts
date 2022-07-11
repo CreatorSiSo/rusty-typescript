@@ -1,4 +1,4 @@
-import { arrayEq } from './utils'
+import { arrayEq } from '@/utils/compare'
 
 const lines = (...lines: any[]) => lines.join('\n')
 

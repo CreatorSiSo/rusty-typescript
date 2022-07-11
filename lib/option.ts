@@ -1,4 +1,4 @@
-import { arrayEq } from './utils'
+import { arrayEq } from '@/utils/compare'
 
 class Option<T> {
 	constructor(isSome: boolean, inner?: T) {
@@ -58,7 +58,7 @@ function caseSome<T>(value: T) {
 		return inner === value
 	}
 }
-function caseEval<T>(fn: (value: T) => bool) {
+function caseEval<T>(fn: (value: T) => boolean) {
 	return (option: Option<T>) => (option.isNone ? false : fn(option.unwrap()))
 }
 

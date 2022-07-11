@@ -11,8 +11,8 @@ function matchPrimitive<N, R>(
 }
 
 // TODO: Does it make sense to pass the value into the trueFn and falseFn?
-function matchBool<R>(bool: boolean, trueFn: () => R, falseFn: () => R) {
-	return bool === true ? trueFn() : falseFn()
+function matchBool<R>(value: boolean, trueFn: () => R, falseFn: () => R) {
+	return value === true ? trueFn() : falseFn()
 }
 
 // TODO: Add support for Objects and Arrays and rename matchPrimitive() to match()

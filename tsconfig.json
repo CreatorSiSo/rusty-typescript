@@ -8,6 +8,11 @@
 		"strictNullChecks": true,
 		"noUnusedLocals": true,
 		"noUnusedParameters": true,
-		"allowUnreachableCode": false
+		"allowUnreachableCode": false,
+		"baseUrl": "lib",
+		"paths": {
+			// https://www.typescriptlang.org/docs/handbook/module-resolution.html#additional-module-resolution-flags
+			"@/*": ["*"]
+		}
 	}
 }

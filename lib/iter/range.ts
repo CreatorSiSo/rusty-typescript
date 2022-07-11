@@ -1,6 +1,6 @@
-import { Option, None, Some } from './option'
-import { Result, Err, Ok } from './result'
-import { Iter } from './iter'
+import { Option, None, Some } from '@/option'
+import { Result, Err, Ok } from '@/result'
+import { Iter } from '@/iter/iter'
 
 function Range(
 	start: number,
@@ -11,8 +11,8 @@ function Range(
 	const step = start < end ? absoluteStep : -1 * absoluteStep
 	const isInRange =
 		step < 0 //
-			? (num: number) => num >= end
-			: (num: number) => num <= end
+			? (number: number) => number >= end
+			: (number: number) => number <= end
 
 	return {
 		*[Symbol.iterator]() {
@@ -26,15 +26,15 @@ function Range(
 	}
 }
 
-class RangeIter extends Iter<num> {
-	constructor(start: num, end: num, step: num = 1) {
+class RangeIter extends Iter<number> {
+	constructor(start: number, end: number, step: number = 1) {
 		super()
 		this.step = Math.abs(step)
 		this.current = start - this.step
 		this.end = end
 	}
 
-	next(): Option<num> {
+	next(): Option<number> {
 		this.current += this.step
 		return this.current >= this.end ? None : Some(this.current)
 	}

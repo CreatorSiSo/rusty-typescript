@@ -1,11 +1,11 @@
 import { describe, test } from 'bun:test'
-import { assertEq } from './test'
+import { assertEq } from '@/utils/test'
 
-import { Option, None, Some } from './option'
-import { matchBool, matchPrimitive } from './match'
+import { Option, None, Some } from '@/option'
+import { matchBool, matchPrimitive } from '@/match'
 
 describe('matchPrimitive()', () => {
-	test('num', () => {
+	test('number', () => {
 		const result = matchPrimitive(
 			2,
 			() => 0,
@@ -17,7 +17,7 @@ describe('matchPrimitive()', () => {
 		assertEq(result, 6)
 	})
 
-	test('int', () => {
+	test('bigint', () => {
 		const result = matchPrimitive(
 			2n,
 			() => 0n,
@@ -31,7 +31,7 @@ describe('matchPrimitive()', () => {
 
 	// This does not really make sense... (Please use matchBool() insted!)
 	// But its possible to do, so it must be tested
-	test('bool', () => {
+	test('boolean', () => {
 		const result = matchPrimitive(
 			true,
 			() => 'catch all',
@@ -42,7 +42,7 @@ describe('matchPrimitive()', () => {
 		assertEq(result, 'case true')
 	})
 
-	test('str', () => {
+	test('string', () => {
 		const result = matchPrimitive(
 			'funny',
 			() => '',
@@ -54,8 +54,8 @@ describe('matchPrimitive()', () => {
 		assertEq(result, '5')
 	})
 
-	test('str => Option<num>', () => {
-		const rating = matchPrimitive<str, Option<num>>(
+	test('string => Option<number>', () => {
+		const rating = matchPrimitive<string, Option<number>>(
 			'funny',
 			() => None,
 			['joke', () => Some(3)],

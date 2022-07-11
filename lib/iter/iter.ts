@@ -1,4 +1,4 @@
-import { Option } from './option'
+import { Option } from '@/option'
 
 interface Iter<T> extends Iterable<T> {
 	next(...args: []): Option<T>
@@ -22,6 +22,8 @@ class Iter<T> {
 		}
 		return this
 	}
+
+	// TODO: Add map<R>(): Map<I, R> method where Map<I, R> is { iter: Iter<I>, fn: (item: I) => R }
 
 	forEach(fn: (item: T) => void): void {
 		for (const item of this) {
