@@ -58,6 +58,9 @@ function caseSome<T>(value: T) {
 		return inner === value
 	}
 }
+function caseEval<T>(fn: (value: T) => bool) {
+	return (option: Option<T>) => (option.isNone ? false : fn(option.unwrap()))
+}
 
 function test(): Option<string> {
 	const maybeNum = Some([9, 9, 7])
@@ -92,4 +95,4 @@ function test(): Option<string> {
 	return None
 }
 
-export { Option, None, Some, caseNone, caseSome }
+export { Option, None, Some, caseNone, caseSome, caseEval }
