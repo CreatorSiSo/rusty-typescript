@@ -1,4 +1,6 @@
+import { Option, None, Some } from './option'
 import { Result, Err, Ok } from './result'
+import { Iter } from './iter'
 
 function Range(
 	start: number,
@@ -24,6 +26,24 @@ function Range(
 	}
 }
 
+class RangeIter extends Iter<num> {
+	constructor(start: num, end: num, step: num = 1) {
+		super()
+		this.step = Math.abs(step)
+		this.current = start - this.step
+		this.end = end
+	}
+
+	next(): Option<num> {
+		this.current += this.step
+		return this.current >= this.end ? None : Some(this.current)
+	}
+
+	private current: number
+	private step: number
+	private end: number
+}
+
 function CheckedRange(
 	start: number,
 	end: number,
@@ -39,3 +59,15 @@ function CheckedRange(
 }
 
 export { Range, CheckedRange }
+
+function test() {
+	let rangeIter = new RangeIter(0, 9)
+	rangeIter.next()
+	rangeIter.next()
+	rangeIter.take(5)
+	rangeIter.forEach((v) => console.log(v))
+
+	for (const num of rangeIter) {
+		console.log(num)
+	}
+}

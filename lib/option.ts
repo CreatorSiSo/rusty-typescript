@@ -64,7 +64,7 @@ function test(): Option<string> {
 	let matchResult = maybeNum.match(
 		() => 'catch all',
 		[caseNone, () => 'sdhfgipuhaih'],
-		[caseSome([4]), (v) => 'not equal'],
+		[caseSome([4]), () => 'not equal'],
 		[caseSome([9, 9, 7]), ([, second, third]) => (second + third).toString()],
 	)
 	console.log(matchResult)
