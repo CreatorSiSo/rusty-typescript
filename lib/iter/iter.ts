@@ -1,10 +1,17 @@
 import { Option } from '@/option'
 
 interface Iter<T> extends Iterable<T> {
-	next(...args: []): Option<T>
+	// TODO: Maybe add custom arguments to next: next<P>(...args: P[]): Option<T>
+	next(): Option<T>
 }
 
 class Iter<T> {
+	static fromFn<R>(fn: () => Option<R>): Iter<R> {
+		const iter = new Iter<R>()
+		iter.next = fn
+		return iter
+	}
+
 	[Symbol.iterator] = () => ({
 		next: () => {
 			let maybeNext = this.next()
