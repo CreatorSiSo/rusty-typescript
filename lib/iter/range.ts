@@ -1,47 +1,38 @@
-import { Option, None, Some } from '@/option'
+import { None, Some } from '@/option'
 import { Result, Err, Ok } from '@/result'
 import { Iter } from '@/iter/iter'
+import BigIntMath from '@/utils/bigint-math'
 
-function Range(
-	start: number,
-	end: number,
-	absoluteStep: number = 1,
-): Iterable<number> {
+function Range(start: number, end: number, absoluteStep = 1) {
 	absoluteStep = Math.abs(absoluteStep)
 	const step = start < end ? absoluteStep : -1 * absoluteStep
 	const isInRange =
 		step < 0 //
 			? (number: number) => number >= end
 			: (number: number) => number <= end
+	let current = start - step
 
-	return {
-		*[Symbol.iterator]() {
-			let current = start
-
-			while (isInRange(current)) {
-				yield current
-				current += step
-			}
-		},
-	}
+	return Iter.fromFn<number>(() => {
+		current += step
+		return isInRange(current) ? Some(current) : None
+	})
 }
 
-class RangeIter extends Iter<number> {
-	constructor(start: number, end: number, step: number = 1) {
-		super()
-		this.step = Math.abs(step)
-		this.current = start - this.step
-		this.end = end
-	}
+// TODO: Write tests for BigIntRange()
+// TODO: Maybe combine Range() and BigIntRange()?
+function BigIntRange(start: bigint, end: bigint, absoluteStep = 1n) {
+	absoluteStep = BigIntMath.abs(absoluteStep)
+	const step = start < end ? absoluteStep : -1n * absoluteStep
+	const isInRange =
+		step < 0 //
+			? (int: bigint) => int >= end
+			: (int: bigint) => int <= end
+	let current = start - step
 
-	next(): Option<number> {
-		this.current += this.step
-		return this.current >= this.end ? None : Some(this.current)
-	}
-
-	private current: number
-	private step: number
-	private end: number
+	return Iter.fromFn<bigint>(() => {
+		current = current + step
+		return isInRange(current) ? Some(current) : None
+	})
 }
 
 function CheckedRange(
@@ -59,15 +50,3 @@ function CheckedRange(
 }
 
 export { Range, CheckedRange }
-
-function test() {
-	let rangeIter = new RangeIter(0, 9)
-	rangeIter.next()
-	rangeIter.next()
-	rangeIter.take(5)
-	rangeIter.forEach((v) => console.log(v))
-
-	for (const num of rangeIter) {
-		console.log(num)
-	}
-}

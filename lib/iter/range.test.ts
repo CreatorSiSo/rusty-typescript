@@ -3,9 +3,19 @@ import { Range } from '@/iter/range'
 import { assertEq } from '@/utils/test'
 
 describe('Range for..of', () => {
+	test('Iter', () => {
+		let result = 0
+		const rangeIter = Range(0, 9)
+		rangeIter.next()
+		rangeIter.next()
+		rangeIter.take(5).forEach((v) => (result += v))
+
+		assertEq(result, 24)
+	})
+
 	test('0..9', () => {
-		const nums = []
-		for (let num of Range(0, 9, -1)) {
+		const nums: number[] = []
+		for (const num of Range(0, 9, -1)) {
 			nums.push(num)
 		}
 		assertEq(nums, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
@@ -13,8 +23,8 @@ describe('Range for..of', () => {
 
 	// TODO: Add float equalitiy check with some epsilon value
 	// test('0..2.5', () => {
-	// 	const nums = []
-	// 	for (let num of Range(0, 0.22, 0.02)) {
+	// 	const nums: number[] = []
+	// 	for (const num of Range(0, 0.22, 0.02)) {
 	// 		nums.push(num)
 	// 	}
 	// 	assertEq(
@@ -24,16 +34,16 @@ describe('Range for..of', () => {
 	// })
 
 	test('0..-9', () => {
-		const nums = []
-		for (let num of Range(0, -9)) {
+		const nums: number[] = []
+		for (const num of Range(0, -9)) {
 			nums.push(num)
 		}
 		assertEq(nums, [0, -1, -2, -3, -4, -5, -6, -7, -8, -9])
 	})
 
 	test('0..-2.5', () => {
-		const nums = []
-		for (let num of Range(0, -2.5, 0.5)) {
+		const nums: number[] = []
+		for (const num of Range(0, -2.5, 0.5)) {
 			nums.push(num)
 		}
 		assertEq(nums, [0, -0.5, -1, -1.5, -2, -2.5])
