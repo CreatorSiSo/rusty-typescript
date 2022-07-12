@@ -3,7 +3,7 @@ function matchPrimitive<N, R>(
 	catchAll: () => R,
 	...cases: [N, (value: N) => R][]
 ) {
-	for (let [caseNum, transformFn] of cases) {
+	for (const [caseNum, transformFn] of cases) {
 		if (caseNum === value) return transformFn(value)
 	}
 

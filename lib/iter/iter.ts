@@ -14,7 +14,7 @@ class Iter<T> {
 
 	[Symbol.iterator] = () => ({
 		next: () => {
-			let maybeNext = this.next()
+			const maybeNext = this.next()
 			return maybeNext.isSome
 				? { value: maybeNext.unwrap() }
 				: { value: undefined, done: true as true }
