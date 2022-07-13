@@ -12,6 +12,10 @@ class Vec<T> {
 
 	iter = () => new VecIter(this.array)
 
+	push = (value: T): number => this.array.push(value)
+	pop = (): Option<T> => Option.from(this.array.pop())
+	at = (index: number): Option<T> => Option.from(this.array.at(index))
+
 	private array
 }
 

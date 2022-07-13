@@ -1,6 +1,10 @@
 import { arrayEq } from '@/utils/compare'
 
 class Option<T> {
+	static from<I>(maybeValue: I | undefined): Option<I> {
+		return maybeValue === undefined ? None : Some(maybeValue)
+	}
+
 	constructor(isSome: boolean, inner?: T) {
 		this.isSome = isSome
 		this.inner = inner

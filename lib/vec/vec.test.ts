@@ -17,4 +17,20 @@ describe('Vec', () => {
 
 		assertEq(vec.length, 5)
 	})
+
+	// test('Numbers', () => {
+	// const vec = new Vec<number>()
+	// Range(0, 999_999 * 99).forEach(() =>
+	// 	vec.push(Math.round(Math.random() * 10)),
+	// )
+	// const timerName = 'For Loop'
+	// console.time(timerName)
+	// const newArray = []
+	// for (let i = 0, l = vec.length; i < l; i++) {
+	// 	newArray[i] = String(vec.at(i))
+	// }
+	// console.timeEnd(timerName)
+	// vec.iter().forEach(() => {})
+	// console.log(vec)
+	// })
 })

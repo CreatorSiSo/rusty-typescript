@@ -1,4 +1,4 @@
-import { None, Option, Some } from '@/option'
+import { Option } from '@/option'
 
 interface Iter<T> extends Iterable<T> {
 	// TODO: Maybe add custom arguments to next: next<P>(...args: P[]): Option<T>
@@ -49,10 +49,7 @@ class Map<I, R> extends Iter<R> {
 		this.fn = fn
 	}
 
-	next(): Option<R> {
-		const maybeNext = this.iter.next()
-		return maybeNext.isSome ? Some(this.fn(maybeNext.unwrap())) : None
-	}
+	next = (): Option<R> => this.iter.next().map(this.fn)
 
 	private iter: Iter<I>
 	private fn: (item: I) => R
