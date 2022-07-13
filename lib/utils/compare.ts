@@ -10,8 +10,10 @@ function arrayEq(left: any[], right: any[]) {
 
 type anyObject = { [k: string]: any }
 
-function objectEq(left: anyObject, right: anyObject) {
+function objectEq(left: anyObject, right: anyObject): boolean {
 	for (const [key, value] of Object.entries(left)) {
+		if (Array.isArray(value)) return arrayEq(value, right[key])
+		if (typeof key === 'object') return objectEq(value, right[key])
 		if (right[key] !== value) return false
 	}
 

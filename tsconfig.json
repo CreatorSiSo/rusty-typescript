@@ -1,5 +1,10 @@
 {
+	"include": ["lib/**/*.ts"],
 	"compilerOptions": {
+		"outFile": "./build/types.d.ts",
+		"declaration": true,
+		"emitDeclarationOnly": true,
+		"skipLibCheck": true,
 		"strict": true,
 		"target": "ESNext",
 		"lib": ["ESNext"],

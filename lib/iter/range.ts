@@ -49,4 +49,4 @@ function CheckedRange(
 	return Ok(Range(start, end, step))
 }
 
-export { Range, CheckedRange }
+export { Range, CheckedRange, BigIntRange }
