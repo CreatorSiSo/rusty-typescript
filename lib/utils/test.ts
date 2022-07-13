@@ -1,18 +1,13 @@
+import { Option } from '@/option'
 import { arrayEq, objectEq } from '@/utils/compare'
 
 const lines = (...lines: any[]) => lines.join('\n')
 
 function debugString(value: any): string {
-	if (
-		Object.keys(value).length === 2 &&
-		Object.hasOwn(value, 'isSome') &&
-		Object.hasOwn(value, 'inner')
-	)
-		return value.isSome ? `Some(${value.inner})` : 'None'
+	if (value instanceof Option)
+		return value.isSome ? `Some(${value.unwrap()})` : 'None'
 
 	switch (typeof value) {
-		case 'object':
-			return JSON.stringify(value)
 		case 'object':
 			return JSON.stringify(value)
 		default:
