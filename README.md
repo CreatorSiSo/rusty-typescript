@@ -1,3 +1,3 @@
 # rusty-typescript
 
-Way too ambitious project of porting rust functionality to TypeScript.
+Way too ambitious project of porting Rust functionality to TypeScript.
